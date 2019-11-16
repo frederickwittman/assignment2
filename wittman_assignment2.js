@@ -10,7 +10,7 @@
 // 0 denotes no edge
 // Here is a sample of acceptable input:
 
-
+/*
 a = [ [0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
   [1, 0, 0, 0, 1, 0, 1, 0, 0, 1],
   [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
@@ -24,7 +24,7 @@ a = [ [0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
 
   b = augmentingPaths(a, 0, 7);
   console.log(b);
-
+*/
 
 function augmentingPaths (graph, start, end) {
  
