@@ -1,66 +1,75 @@
-class Graph {
- constructor (numberOfVertices) {
-   this.numberOfVertices = numberOfVertices;
-   this.AdjList = new Map();
-   this.vertList = [];
+// Frederick Wittman
+// W08288149
+// COSC 3020
+// Assignment 2
+// 11/15/19
+
+// This was helpful to me: https://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
+// The nodes are labeled 0 through n - 1
+// Edges go from row to column
+// 0 denotes no edge
+// Here is a sample of acceptable input:
+
+/*
+a = [ [0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
+  [1, 0, 0, 0, 1, 0, 1, 0, 0, 1],
+  [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+  [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+  [0, 1, 1, 1, 0, 1, 0, 0, 0, 0],
+  [0, 0, 0, 1, 1, 0, 9, 0, 0, 0],
+  [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 1, 15, 0, 0, 1, 0, 0],
+  [0, 0, 0, 0, 1, 0, 0, 1, 0, 0] ];
+
+  b = augmentingPaths(a, 7, 8);
+  console.log(b);
+*/
+
+function augmentingPaths (graph, start, end) {
+ 
+// Keep track of vertices with that have been visited with "processedList" to avoid cycles
+// If a cycle existed and "end" could not be found the code would execute forever
+// Also, using "processedList" may be faster in graphs with a large edges/vertices ratio
+processedList = [];
+processedList.push(start)
+ 
+// "Queue" keeps track of the growth of the paths as the breadth first search proceeds
+queue = [];
+queue.push([start]);
+ 
+while (queue.length > 0) {
+ path = [];
+ path = queue[0];
+ queue.splice(0, 1);
+
+ vert = path[path.length - 1];
+ 
+ 
+ if (vert == end) {
+   return path;
  }
-  addVertex(v) {
-   this.AdjList.set(v, []);
-   this.vertList.push(v);
- }
- addEdge(v, w, weight) {
-   this.AdjList.get(v).push([w, weight]);
-   this.AdjList.get(w).push([v, weight]);
- }
- getEdgeWeight (v, w) {
-   edges = this.AdjList.get(v);
-   for (var i = 0; i < edges.length; i++) {
-     if (edges[i][0] == w) {
-       return edges[i][1];
-     }
+
+ adjacentVerts = [];
+
+ for (var j = 0; j < graph.length; j++) {
+   if (graph[vert][j] != 0) {
+    adjacentVerts.push(j);
    }
-   return undefined;
+ }
+
+ for (var i = 0; i < adjacentVerts.length; i++) {
+
+   currVert = adjacentVerts[i];
+
+   if (!(processedList.includes(currVert))) {
+     processedList.push(currVert);
+     newPath = path.slice();
+     newPath.push(currVert);
+     queue.push(newPath);
+     console.log(newPath)
+   }
  }
 }
-
-function bfs(graph, start, end) {
-    queue = []
-    queue.push([start])
-    while (queue.length > 0) {
-
-        path = queue.slice(1);
-        newPath = queue.slice(0);
-
-        node = path[path.length - 1]
-
-        if (node == end) {
-            return path
-        }
- 
-        for (var i = 0; i++; i < graph.get(node).length) {
-            newPath.push(graph.get(node)[i]);
-            queue.push(newPath);
-        }
-    }
-}
-
-g1 = new Graph (6);
-vertices = ['A', 'B', 'C', 'D', 'E', 'F'];
-for (var i = 0; i < vertices.length; i++) {
- g1.addVertex(vertices[i]);
-}
- 
-g1.addEdge('A', 'B');
-g1.addEdge('A', 'D');
-g1.addEdge('A', 'E');
-g1.addEdge('B', 'C');
-g1.addEdge('D', 'E');
-g1.addEdge('E', 'F');
-g1.addEdge('E', 'C');
-g1.addEdge('C', 'F');
-
-console.log(bfs(g1, 'A', 'B'))
-
-function augmentingPath (graph, start, end) {
-
+return ("Failure")
 }
